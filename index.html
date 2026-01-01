@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ohio Resource Finder</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; margin:0; padding:20px; }
+  h1 { text-align:center; color:#333; }
+  #search { width:100%; max-width:400px; margin:10px auto; display:block; padding:10px; font-size:16px; }
+  #filter { width:100%; max-width:400px; margin:10px auto; display:block; padding:10px; font-size:16px; }
+  table { width:100%; max-width:800px; margin:20px auto; border-collapse: collapse; }
+  th, td { border:1px solid #ccc; padding:10px; text-align:left; }
+  th { background:#eee; }
+  tr:nth-child(even) { background:#fafafa; }
+  a { color:#1e90ff; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  footer { text-align:center; margin-top:30px; color:#888; font-size:14px; }
+</style>
+</head>
+<body>
+
+<h1>Ohio Resource Finder</h1>
+
+<input type="text" id="search" placeholder="Search by city or keyword...">
+<select id="filter">
+  <option value="all">All Types</option>
+  <option value="Shelter">Shelter</option>
+  <option value="Food">Food</option>
+  <option value="Addiction">Addiction</option>
+  <option value="MentalHealth">Mental Health</option>
+</select>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>City</th>
+      <th>Phone</th>
+      <th>Website</th>
+    </tr>
+  </thead>
+  <tbody id="resource-table">
+  </tbody>
+</table>
+
+<footer>Free Ohio resources — stay safe and supported 💛</footer>
+
+<script>
+const resources = [
+  {name:"Columbus Rescue Mission", type:"Shelter", city:"Columbus", phone:"(614) 444-6616", website:"https://columbusrescue.org"},
+  {name:"Cleveland Food Bank", type:"Food", city:"Cleveland", phone:"(216) 738-2265", website:"https://clevelandfoodbank.org"},
+  {name:"Ohio Addiction Recovery Center", type:"Addiction", city:"Cincinnati", phone:"(513) 555-1234", website:"https://ohioaddiction.org"},
+  {name:"Dayton Free Clinic", type:"MentalHealth", city:"Dayton", phone:"(937) 222-0000", website:"https://daytonfreeclinic.org"}
+];
+
+// Function to display resources
+function displayResources(list) {
+  const table = document.getElementById("resource-table");
+  table.innerHTML = "";
+  list.forEach(r => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${r.name}</td><td>${r.type}</td><td>${r.city}</td><td>${r.phone}</td><td><a href="${r.website}" target="_blank">Visit</a></td>`;
+    table.appendChild(row);
+  });
+}
+
+// Initial display
+displayResources(resources);
+
+// Filter and search
+document.getElementById("search").addEventListener("input", filterResources);
+document.getElementById("filter").addEventListener("change", filterResources);
+
+function filterResources() {
+  const query = document.getElementById("search").value.toLowerCase();
+  const type = document.getElementById("filter").value;
+  const filtered = resources.filter(r => {
+    const matchText = r.name.toLowerCase().includes(query) || r.city.toLowerCase().includes(query);
+    const matchType = type === "all" ? true : r.type === type;
+    return matchText && matchType;
+  });
+  displayResources(filtered);
+}
+</script>
+
+</body>
+</html>
