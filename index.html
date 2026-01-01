@@ -49,10 +49,14 @@
 
 <script>
 const resources = [
-  {name:"City Gospel Mission Men’s Shelter", type:"Shelter", city:"Cincinnati", phone:"(513) 241-5525", website:"https://www.citygospelmission.org"},
-  {name:"Shelterhouse Cincinnati - Men's Center", type:"Shelter", city:"Cincinnati", phone:"(513) 721-0643", website:"https://shelterhousecincy.org/mens-center"},
-  {name:"Helping Hands", type:"Shelter / Food", city:"Zanesville", phone:"(740) 452-3720", website:"https://www.helpinghandszanesville.org"}
-];
+  // === Cincinnati / Existing Examples ===
+  {
+    name: "City Gospel Mission Men’s Shelter",
+    type: "Shelter",
+    city: "Cincinnati",
+    phone: "(513) 241-5525",
+    website: "https://www.citygospelmission.org"
+  },
   {
     name: "Shelterhouse Cincinnati - Men's Center",
     type: "Shelter",
@@ -60,57 +64,64 @@ const resources = [
     phone: "(513) 721-0643",
     website: "https://shelterhousecincy.org/mens-center"
   },
+  // === Zanesville Resources ===
   {
-    name: "The Open Shelter",
+    name: "Helping Hands",
+    type: "Shelter / Food",
+    city: "Zanesville",
+    phone: "(740) 452-3720",
+    website: "https://www.helpinghandszanesville.org"
+  },
+  {
+    name: "Muskingum County Homeless Shelter",
     type: "Shelter",
-    city: "Columbus",
-    phone: "(614) 222-2885",
-    website: "https://theopenshelter.org"
+    city: "Zanesville",
+    phone: "(740) 452-4090",
+    website: ""
   },
   {
-    name: "211 Ohio Helpline",
-    type: "Support",
-    city: "Statewide",
-    phone: "211",
-    website: "https://www.211.org"
+    name: "Salvation Army Zanesville",
+    type: "Shelter / Food",
+    city: "Zanesville",
+    phone: "(740) 454-2726",
+    website: "https://centralusa.salvationarmy.org/ohio/"
   },
   {
-    name: "Freestore Foodbank",
+    name: "Community Action of Zanesville Food Pantry",
     type: "Food",
-    city: "Cincinnati",
-    phone: "(513) 357-4600",
-    website: "https://freestorefoodbank.org"
+    city: "Zanesville",
+    phone: "(740) 454-5707",
+    website: "https://communityactionzanesville.org/"
   },
   {
-    name: "Toledo Northwestern Ohio Food Bank",
-    type: "Food",
-    city: "Toledo",
-    phone: "(419) 242-5000",
-    website: "https://www.toledofoodbank.org"
-  },
-  {
-    name: "Mid-Ohio Food Collective (Central Ohio)",
-    type: "Food",
-    city: "Columbus",
-    phone: "(614) 274-2273",
-    website: "https://mofc.org"
-  },
-  {
-    name: "Lake Area Recovery Center",
+    name: "Zanesville Helping Hands Addiction Support",
     type: "Addiction",
-    city: "Ashtabula",
-    phone: "(440) 998-0550",
-    website: "https://www.lakearearecovery.org"
+    city: "Zanesville",
+    phone: "(740) 452-3720",
+    website: "https://www.helpinghandszanesville.org"
   },
   {
-    name: "Alcoholics Anonymous Ohio",
-    type: "Addiction Support",
-    city: "Statewide",
-    phone: "1-888-8AAOHIO",
-    website: "https://aaohio.org"
+    name: "Muskingum County Mental Health Services",
+    type: "Mental Health",
+    city: "Zanesville",
+    phone: "(740) 454-5544",
+    website: "https://www.muskingummentalhealth.org/"
+  },
+  {
+    name: "Christ's Table Zanesville",
+    type: "Food",
+    city: "Zanesville",
+    phone: "(740) 452-2112",
+    website: "https://christstablezanesville.org/"
+  },
+  {
+    name: "Zanesville Area Community Center",
+    type: "Shelter / Food",
+    city: "Zanesville",
+    phone: "(740) 454-2881",
+    website: ""
   }
 ];
-
 // Function to display resources
 function displayResources(list) {
   const table = document.getElementById("resource-table");
