@@ -5,33 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ohio Resource Finder</title>
 <style>
-  body { font-family: Arial, sans-serif; background: #f5f5f5; margin:0; padding:20px; }
-  h1 { text-align:center; color:#333; }
-  #search { width:100%; max-width:400px; margin:10px auto; display:block; padding:10px; font-size:16px; }
-  #filter { width:100%; max-width:400px; margin:10px auto; display:block; padding:10px; font-size:16px; }
-  table { width:100%; max-width:800px; margin:20px auto; border-collapse: collapse; }
-  th, td { border:1px solid #ccc; padding:10px; text-align:left; }
-  th { background:#eee; }
-  tr:nth-child(even) { background:#fafafa; }
-  a { color:#1e90ff; text-decoration:none; }
-  a:hover { text-decoration:underline; }
-  footer { text-align:center; margin-top:30px; color:#888; font-size:14px; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  h1 { text-align: center; color: #333; }
+  input[type="text"] { width: 100%; padding: 10px; margin: 15px 0; font-size: 16px; box-sizing: border-box; }
+  table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+  th, td { border: 1px solid #aaa; padding: 10px; text-align: left; }
+  th { background: #f2c94c; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  a { color: #1e90ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  footer { text-align: center; margin-top: 30px; color: #888; font-size: 14px; }
 </style>
 </head>
 <body>
 
 <h1>Ohio Resource Finder</h1>
+<p>Search for shelters, food, addiction, and mental health resources in Ohio.</p>
 
-<input type="text" id="search" placeholder="Search by city or keyword...">
-<select id="filter">
-  <option value="all">All Types</option>
-  <option value="Shelter">Shelter</option>
-  <option value="Food">Food</option>
-  <option value="Addiction">Addiction</option>
-  <option value="MentalHealth">Mental Health</option>
-</select>
+<input type="text" id="search" placeholder="Type a city or resource name...">
 
-<table>
+<table id="resourceTable">
   <thead>
     <tr>
       <th>Name</th>
@@ -41,115 +34,90 @@
       <th>Website</th>
     </tr>
   </thead>
-  <tbody id="resource-table">
-  </tbody>
+  <tbody></tbody>
 </table>
 
-<footer>Free Ohio resources — stay safe and supported 💛</footer>
+<footer>Created for free access to Ohio community resources 💛</footer>
 
 <script>
+// === Full Ohio Resource Array ===
 const resources = [
-  // === Cincinnati / Existing Examples ===
-  {
-    name: "City Gospel Mission Men’s Shelter",
-    type: "Shelter",
-    city: "Cincinnati",
-    phone: "(513) 241-5525",
-    website: "https://www.citygospelmission.org"
-  },
-  {
-    name: "Shelterhouse Cincinnati - Men's Center",
-    type: "Shelter",
-    city: "Cincinnati",
-    phone: "(513) 721-0643",
-    website: "https://shelterhousecincy.org/mens-center"
-  },
-  // === Zanesville Resources ===
-  {
-    name: "Helping Hands",
-    type: "Shelter / Food",
-    city: "Zanesville",
-    phone: "(740) 452-3720",
-    website: "https://www.helpinghandszanesville.org"
-  },
-  {
-    name: "Muskingum County Homeless Shelter",
-    type: "Shelter",
-    city: "Zanesville",
-    phone: "(740) 452-4090",
-    website: ""
-  },
-  {
-    name: "Salvation Army Zanesville",
-    type: "Shelter / Food",
-    city: "Zanesville",
-    phone: "(740) 454-2726",
-    website: "https://centralusa.salvationarmy.org/ohio/"
-  },
-  {
-    name: "Community Action of Zanesville Food Pantry",
-    type: "Food",
-    city: "Zanesville",
-    phone: "(740) 454-5707",
-    website: "https://communityactionzanesville.org/"
-  },
-  {
-    name: "Zanesville Helping Hands Addiction Support",
-    type: "Addiction",
-    city: "Zanesville",
-    phone: "(740) 452-3720",
-    website: "https://www.helpinghandszanesville.org"
-  },
-  {
-    name: "Muskingum County Mental Health Services",
-    type: "Mental Health",
-    city: "Zanesville",
-    phone: "(740) 454-5544",
-    website: "https://www.muskingummentalhealth.org/"
-  },
-  {
-    name: "Christ's Table Zanesville",
-    type: "Food",
-    city: "Zanesville",
-    phone: "(740) 452-2112",
-    website: "https://christstablezanesville.org/"
-  },
-  {
-    name: "Zanesville Area Community Center",
-    type: "Shelter / Food",
-    city: "Zanesville",
-    phone: "(740) 454-2881",
-    website: ""
-  }
+  // Cincinnati
+  {name:"City Gospel Mission Men’s Shelter", type:"Shelter", city:"Cincinnati", phone:"(513) 241-5525", website:"https://www.citygospelmission.org"},
+  {name:"Shelterhouse Cincinnati - Men's Center", type:"Shelter", city:"Cincinnati", phone:"(513) 721-0643", website:"https://shelterhousecincy.org/mens-center"},
+  {name:"Cincinnati Food Bank", type:"Food", city:"Cincinnati", phone:"(513) 482-7551", website:"https://www.cincyfoodbank.org"},
+  {name:"Talbert House Addiction Support", type:"Addiction", city:"Cincinnati", phone:"(513) 751-7747", website:"https://www.talberthouse.org"},
+
+  // Cleveland
+  {name:"Wade Park Shelter", type:"Shelter", city:"Cleveland", phone:"(216) 421-5747", website:"https://www.clevelandmission.org"},
+  {name:"Greater Cleveland Food Bank", type:"Food", city:"Cleveland", phone:"(216) 738-2265", website:"https://www.greaterclevelandfoodbank.org"},
+  {name:"Alcohol & Drug Recovery Services", type:"Addiction", city:"Cleveland", phone:"(216) 623-6888", website:"https://www.adrs.org"},
+  
+  // Columbus
+  {name:"Faith Mission Shelter", type:"Shelter", city:"Columbus", phone:"(614) 221-5891", website:"https://www.faithmission.org"},
+  {name:"Mid-Ohio Food Collective", type:"Food", city:"Columbus", phone:"(614) 274-5551", website:"https://www.mofc.org"},
+  {name:"Directions for Youth & Families", type:"Addiction / Mental Health", city:"Columbus", phone:"(614) 225-9142", website:"https://www.dfyf.org"},
+
+  // Toledo
+  {name:"Toledo Seagate Shelter", type:"Shelter", city:"Toledo", phone:"(419) 244-9353", website:"https://www.seagateshelter.org"},
+  {name:"Toledo Northwestern Ohio Food Bank", type:"Food", city:"Toledo", phone:"(419) 242-5000", website:"https://www.toledofoodbank.org"},
+  
+  // Akron
+  {name:"Akron Homeless Shelter", type:"Shelter", city:"Akron", phone:"(330) 376-9494", website:"https://www.akronhomeless.org"},
+  {name:"Akron-Canton Food Bank", type:"Food", city:"Akron", phone:"(330) 535-6900", website:"https://www.akroncantonfoodbank.org"},
+
+  // Dayton
+  {name:"Matthew 25: Ministries Shelter", type:"Shelter / Food", city:"Dayton", phone:"(937) 293-5003", website:"https://www.m25m.org"},
+  {name:"Dayton Recovery Center", type:"Addiction", city:"Dayton", phone:"(937) 224-0222", website:"https://www.daytonrecoverycenter.org"},
+
+  // Canton
+  {name:"Canton Shelterhouse", type:"Shelter", city:"Canton", phone:"(330) 452-8700", website:"https://www.cantonshelter.org"},
+
+  // Youngstown
+  {name:"Youngstown Community Shelter", type:"Shelter / Food", city:"Youngstown", phone:"(330) 746-1591", website:"https://www.ycommunity.org"},
+
+  // Zanesville
+  {name:"Helping Hands", type:"Shelter / Food", city:"Zanesville", phone:"(740) 452-3720", website:"https://www.helpinghandszanesville.org"},
+  {name:"Muskingum County Homeless Shelter", type:"Shelter", city:"Zanesville", phone:"(740) 452-4090", website:""},
+  {name:"Salvation Army Zanesville", type:"Shelter / Food", city:"Zanesville", phone:"(740) 454-2726", website:"https://centralusa.salvationarmy.org/ohio/"},
+  {name:"Community Action of Zanesville Food Pantry", type:"Food", city:"Zanesville", phone:"(740) 454-5707", website:"https://communityactionzanesville.org/"},
+  {name:"Zanesville Helping Hands Addiction Support", type:"Addiction", city:"Zanesville", phone:"(740) 452-3720", website:"https://www.helpinghandszanesville.org"},
+  {name:"Muskingum County Mental Health Services", type:"Mental Health", city:"Zanesville", phone:"(740) 454-5544", website:"https://www.muskingummentalhealth.org/"},
+  {name:"Christ's Table Zanesville", type:"Food", city:"Zanesville", phone:"(740) 452-2112", website:"https://christstablezanesville.org/"},
+  {name:"Zanesville Area Community Center", type:"Shelter / Food", city:"Zanesville", phone:"(740) 454-2881", website:""}
 ];
-// Function to display resources
+
+// === Populate Table ===
+const tableBody = document.querySelector("#resourceTable tbody");
+
 function displayResources(list) {
-  const table = document.getElementById("resource-table");
-  table.innerHTML = "";
-  list.forEach(r => {
+  tableBody.innerHTML = "";
+  list.forEach(resource => {
     const row = document.createElement("tr");
-    row.innerHTML = `<td>${r.name}</td><td>${r.type}</td><td>${r.city}</td><td>${r.phone}</td><td><a href="${r.website}" target="_blank">Visit</a></td>`;
-    table.appendChild(row);
+    row.innerHTML = `
+      <td>${resource.name}</td>
+      <td>${resource.type}</td>
+      <td>${resource.city}</td>
+      <td>${resource.phone}</td>
+      <td>${resource.website ? `<a href="${resource.website}" target="_blank">Link</a>` : ""}</td>
+    `;
+    tableBody.appendChild(row);
   });
 }
 
 // Initial display
 displayResources(resources);
 
-// Filter and search
-document.getElementById("search").addEventListener("input", filterResources);
-document.getElementById("filter").addEventListener("change", filterResources);
-
-function filterResources() {
-  const query = document.getElementById("search").value.toLowerCase();
-  const type = document.getElementById("filter").value;
-  const filtered = resources.filter(r => {
-    const matchText = r.name.toLowerCase().includes(query) || r.city.toLowerCase().includes(query);
-    const matchType = type === "all" ? true : r.type === type;
-    return matchText && matchType;
-  });
+// === Search Functionality ===
+document.getElementById("search").addEventListener("input", e => {
+  const term = e.target.value.toLowerCase();
+  const filtered = resources.filter(r =>
+    r.name.toLowerCase().includes(term) ||
+    r.city.toLowerCase().includes(term) ||
+    r.type.toLowerCase().includes(term)
+  );
   displayResources(filtered);
-}
+});
 </script>
 
 </body>
